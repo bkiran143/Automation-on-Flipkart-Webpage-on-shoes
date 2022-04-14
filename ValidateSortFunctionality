@@ -1,0 +1,45 @@
+package test;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class ValidateSortFunctionality {
+public static void main(String[] args) {
+	    //Set the driver executable path
+		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
+		//Instantiate the browser
+		ChromeOptions o =new ChromeOptions();
+		o.addArguments("--incognito");
+		// Launch the browser in incognito mode
+		WebDriver driver=new ChromeDriver(o);
+		// Maximize the window
+		driver.manage().window().maximize();
+		//Implicit wiat as the precondtion-Intelligent wait for find element()
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		// Create a object of webDriverwait
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		//Pass the main URL of the application
+		driver.get("https://www.flipkart.com/");
+		// xpath to close the window of login page
+		driver.findElement(By.xpath("//button[text()='✕']")).click();
+		// xpath to search the shoes in the search text field
+		driver.findElement(By.xpath("//input[@title=\"Search for products, brands and more\"]")).sendKeys("shoes");
+		// xpath to click on the search button
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		//xpath to sort the price of the shoes from low to high
+		driver.findElement(By.xpath("//div[text()='Price -- Low to High']")).click();
+        // Identify the price of the shoes
+		List<WebElement> shoesPriceLink = driver.findElements(By.xpath("//a[@class='_3bPFwb']//div[@class='_30jeq3']"));
+		// Count of products present in the webPage
+		System.out.println("The Total number of the shoes present in the webpage is = " + shoesPriceLink.size());			
+        // Terminate the Session
+		driver.quit();
+}
+}
